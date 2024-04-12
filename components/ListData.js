@@ -1,16 +1,12 @@
 import { StyleSheet, FlatList, Text, View, Pressable } from "react-native";
 import { Link, useRouter  } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React from "react";
 
 export default function ListData({ item, index, fetchDetails }) {
-  // const router = useRouter();
-
-  // console.log('re--- render');
 
   const Item = () => (
     <Pressable
       onPress={() => {
-        // goToDetails(item);
         fetchDetails(item);
       }}
     >

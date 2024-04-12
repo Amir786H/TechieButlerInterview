@@ -4,18 +4,25 @@ import { useLocalSearchParams } from "expo-router";
 
 const Details = () => {
   const userdata = useLocalSearchParams();
-  const [userData, setUserData] = useState(userdata);
-  console.log("params::::", userdata);
 
   return (
     <View style={styles.container}>
       <View>
-        <Text style={{fontSize: 20, fontWeight: '700'}}>Details Page</Text>
+        <Text style={{ fontSize: 20, fontWeight: "700" }}>Details Page</Text>
       </View>
       <View style={styles.boxStyle}>
-        <Text style={styles.textStyle}>id: {userdata.id}</Text>
-        <Text>Title: {userdata.title}</Text>
-        <Text style={styles.textStyle}>Desc: {userdata.body}</Text>
+        <Text style={styles.textStyle}>
+          <Text style={[styles.textStyle, { fontWeight: "800" }]}>id: </Text>
+          {userdata.id}
+        </Text>
+        <Text>
+          <Text style={[styles.textStyle, { fontWeight: "800" }]}>Title: </Text>
+          {userdata.title}
+        </Text>
+        <Text style={styles.textStyle}>
+          <Text style={[styles.textStyle, { fontWeight: "800" }]}>Desc: </Text>
+          {userdata.body}
+        </Text>
       </View>
     </View>
   );

@@ -1,8 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Pressable, Text, FlatList } from "react-native";
-import React, { useEffect, useState, useMemo, useCallback, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useContext,
+} from "react";
 import { AuthContext } from "./Context/AuthContext";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, useRouter } from "expo-router";
 
 import ImageViewer from "../components/ImageViewer";
@@ -11,33 +16,39 @@ import ListData from "../components/ListData";
 const PlaceholderImage = require("../assets/images/6.jpg");
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const {userData, setUserData} = useContext(AuthContext);
+  const { userData, setUserData } = useContext(AuthContext);
 
   const url = "https://jsonplaceholder.typicode.com/posts";
   const router = useRouter();
 
   useEffect(() => {
     logData();
-  }, [memoizedData]);
+  }, [logData]);
 
-  const logData = async () => {
-    console.log("Parent comp re-render:::::");
+  /* The `logData` function defined using `useCallback` is making an asynchronous call to fetch data
+  from the URL specified in the `url` variable. Once the data is fetched, it is converted to JSON
+  format. Then, the `setUserData` function, which is obtained from the `AuthContext`, is called with
+  the fetched JSON data as an argument to update the user data state. */
+  const logData = useCallback(() => {
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      // setData(data);
-      setUserData(data);
+      const response = fetch(url).then((res) => {
+        res.json().then((json) => {
+          //Do stuff with json here
+          setUserData(json);
+        });
+      });
     } catch (error) {
       console.log(error);
     }
-  };
-
-
-  const memoizedData = useMemo(() => {
-    return userData;
   }, [userData]);
 
+  /**
+   * The `goToDetails` function navigates to the Details page with the provided parameters.
+   * @param e - The parameter `e` in the `goToDetails` function likely represents an event object that
+   * is being passed as an argument to the function. This event object may contain information about
+   * the event that triggered the function, such as mouse click coordinates, key presses, or other
+   * relevant data. The function then
+   */
   const goToDetails = (e) => {
     router.push({
       pathname: "/Details",
@@ -45,6 +56,8 @@ const App = () => {
     });
   };
 
+  /* The `const memoizedCallback` function defined using `useCallback` is an asynchronous function that
+  takes a parameter `resp`. Inside this function: */
   const memoizedCallback = useCallback(async (resp) => {
     let id = resp?.id;
     try {
@@ -69,9 +82,9 @@ const App = () => {
       <View style={styles.imageContainer}>
         <ImageViewer placeholderImageSource={PlaceholderImage} />
 
-        {data && (
+        {userData && (
           <FlatList
-            data={memoizedData}
+            data={userData}
             renderItem={({ item, index }) => {
               return (
                 <ListData
@@ -84,12 +97,6 @@ const App = () => {
             ListEmptyComponent={handleEmpty}
           />
         )}
-
-        <Link href="/Details" asChild>
-          <Pressable>
-            <Text>Home</Text>
-          </Pressable>
-        </Link>
       </View>
     </View>
   );

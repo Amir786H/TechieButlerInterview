@@ -8,8 +8,6 @@ import App from "./App";
 export default function AppDemo() {
   const [userData, setUserData] = useState();
 
-  useEffect(() => {}, []);
-
   return (
     <View style={styles.container}>
       <AuthContext.Provider value={{ userData, setUserData }}>
