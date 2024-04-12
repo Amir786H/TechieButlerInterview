@@ -1,10 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-
 import ImageViewer from "./components/ImageViewer";
 
-const PlaceholderImage = require("./assets/images/background-image.png");
+const PlaceholderImage = require("./assets/images/6.jpg");
 
 export default function App() {
   return (
